@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Is it butts?</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: sans-serif;
+        font-size: 12px;
+      }
+
+      body {
+        min-height: 100%;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      h1 {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        margin: 0;
+        padding: 0;
+        
+        color: #fff;
+
+        font: 700 256px/1em sans-serif;
+        text-align: center;
+
+        -moz-text-stroke: 4px #000;
+        -webkit-text-stroke: 4px #000;
+        text-stroke: 6px #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Yes</h1>
+    <script type="text/javascript">
+      var request = new XMLHttpRequest();
+      var api = 'http://api.giphy.com/v1/gifs/search?q=butts&api_key=dc6zaTOxFJmzC';
+      
+      request.open('GET', api, true);
+      
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          var response = {};
+          try {
+             response = JSON.parse(request.responseText);
+          } catch (e) {
+            console.log(e.message)
+          }
+
+          if (typeof response.data !== 'undefined' && response.data.length > 0) {
+            var rand = Math.floor(Math.random() * response.data.length);
+            var gif = JSON.parse(JSON.stringify(response.data[rand]));
+
+            document.body.style.backgroundImage = "url('" + gif.images.fixed_height.url + "')";
+          }
+        }
+      };
+
+      request.send();
+    </script>
+  </body>
+</html>
